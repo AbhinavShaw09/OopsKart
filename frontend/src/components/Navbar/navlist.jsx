@@ -21,7 +21,7 @@ export const navList = (
       className="flex items-center gap-x-2 p-1 font-medium"
     >
       <Link to="/cart" className="flex items-center">
-      Cart
+        Cart
       </Link>
     </Typography>
     <Typography

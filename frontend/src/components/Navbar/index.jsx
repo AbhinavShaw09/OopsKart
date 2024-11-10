@@ -31,16 +31,16 @@ export const NavbarDefault = () => {
         </Typography>
         <div className="hidden lg:block">{navList}</div>
         <div className="flex items-center gap-x-1">
-        <Typography
-              as="li"
-              variant="small"
-              color="blue-gray"
-              className="flex items-center gap-x-2 p-1 font-medium"
-            >
-              <Link to="/login" className="flex items-center">
-                Logout
-              </Link>
-            </Typography>
+          <Typography
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="flex items-center gap-x-2 p-1 font-medium"
+          >
+            <Link to="/login" className="items-center hidden lg:block">
+              Logout
+            </Link>
+          </Typography>
         </div>
         <IconButton
           variant="text"
