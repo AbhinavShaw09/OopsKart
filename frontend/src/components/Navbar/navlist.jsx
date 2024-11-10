@@ -20,8 +20,8 @@ export const navList = (
       color="blue-gray"
       className="flex items-center gap-x-2 p-1 font-medium"
     >
-      <Link to="/checkout" className="flex items-center">
-      Checkout
+      <Link to="/cart" className="flex items-center">
+      Cart
       </Link>
     </Typography>
     <Typography

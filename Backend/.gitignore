@@ -1,0 +1,80 @@
+# Python specific
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+
+# Poetry
+poetry.lock
+.pdm.toml
+.pdm.lock
+
+# Ignore the virtual environment created by Poetry
+# (Poetry stores virtual environments in .venv by default)
+.venv/
+
+# Django specific
+db.sqlite3
+*.sqlite3
+/media
+/staticfiles
+/static
+
+# Django migrations
+*/migrations/*
+!*/migrations/__init__.py
+
+# Environment variables
+.env
+*.env
+
+# Pytest
+.pytest_cache/
+.tox/
+.cache
+
+# Logs
+*.log
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+# macOS
+.DS_Store
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Coverage reports
+htmlcov/
+.coverage
+*.cover
+.hypothesis/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Node modules 
+node_modules/
+
+# Static and media files
+/staticfiles
+/media
+
+# Django Rest Framework generated files (if any)
+drf_openapi_schema.json
+drf_yasg_schema.json

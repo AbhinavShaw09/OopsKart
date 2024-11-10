@@ -2,12 +2,12 @@ import {
   Navbar,
   MobileNav,
   Typography,
-  Button,
   IconButton,
 } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import { navList } from "./navlist";
-import { useEffect, useState } from "react";
 
 export const NavbarDefault = () => {
   const [openNav, setOpenNav] = useState(false);
@@ -20,27 +20,27 @@ export const NavbarDefault = () => {
   }, []);
 
   return (
-    <Navbar className="mx-auto  px-4 py-2 lg:px-8 lg:py-4 bg-slate-300 sticky top-0 z-50">
+    <Navbar className="mx-auto  px-4 py-2 lg:px-8 lg:py-4 bg-lime-300 top-0 z-50">
       <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
           href="#"
           className="mr-4 cursor-pointer py-1.5 font-extrabold font-sans text-xl"
         >
-          ShopCart
+          OopsKart
         </Typography>
         <div className="hidden lg:block">{navList}</div>
         <div className="flex items-center gap-x-1">
-          <Button variant="text" size="sm" className="hidden lg:inline-block">
-            <span>Log In</span>
-          </Button>
-          <Button
-            variant="gradient"
-            size="sm"
-            className="hidden lg:inline-block"
-          >
-            <span>Sign in</span>
-          </Button>
+        <Typography
+              as="li"
+              variant="small"
+              color="blue-gray"
+              className="flex items-center gap-x-2 p-1 font-medium"
+            >
+              <Link to="/login" className="flex items-center">
+                Logout
+              </Link>
+            </Typography>
         </div>
         <IconButton
           variant="text"
@@ -84,12 +84,16 @@ export const NavbarDefault = () => {
         <div className="container mx-auto">
           {navList}
           <div className="flex items-center gap-x-1">
-            <Button fullWidth variant="text" size="sm" className="">
-              <span>Log In</span>
-            </Button>
-            <Button fullWidth variant="gradient" size="sm" className="">
-              <span>Sign in</span>
-            </Button>
+            <Typography
+              as="li"
+              variant="small"
+              color="blue-gray"
+              className="flex items-center gap-x-2 p-1 font-medium"
+            >
+              <Link to="/login" className="flex items-center">
+                Logout
+              </Link>
+            </Typography>
           </div>
         </div>
       </MobileNav>
