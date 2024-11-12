@@ -47,7 +47,7 @@ INSTALLED_APPS += EXTERNAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "corsheaders.middleware.CorsMiddleware",          
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -138,3 +138,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 #     "http://localhost:5173",  # React development server
 #     "https://your-frontend-domain.com",  # Production frontend domain
 # ]
+
+# Media-Directory
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
