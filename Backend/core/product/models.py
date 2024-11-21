@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from core.models import BaseModel
-from .enums import ProductCategoryChoices
+from .constants import ProductCategoryChoices
 
 
 class ProductCategory(BaseModel):
@@ -43,6 +43,10 @@ class Product(BaseModel):
         if self.price < 0:
             raise ValidationError("Prices cannot be negative")
 
+    @classmethod
+    def get_all_active_product(cls):
+        return Product.objects.filter(is_active=True)
+
     class Meta:
-        ordering = ["product_name"]
+        ordering = ["name"]
         verbose_name_plural = "Products"
