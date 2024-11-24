@@ -24,15 +24,5 @@ export const navList = (
         Cart
       </Link>
     </Typography>
-    <Typography
-      as="li"
-      variant="small"
-      color="blue-gray"
-      className="flex items-center gap-x-2 p-1 font-medium"
-    >
-      <Link to="/dashboard" className="flex items-center">
-      Dashboard
-      </Link>
-    </Typography>
   </ul>
 );

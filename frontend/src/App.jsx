@@ -4,9 +4,10 @@ import { NavbarDefault } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { Cart } from "./pages/Cart";
 import { MarketPlace } from "./pages/MarketPlace";
-import { Dashboard } from "./pages/Dashboard";
 import { Login } from "./pages/Login";
-import { Signup } from "./pages/Signup";
+import  SignUpPage  from "./pages/Signup";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import  PrivateRoute  from "./utils/PrivateRoute";
 
 function App() {
   const location = useLocation();
@@ -14,15 +15,30 @@ function App() {
 
   return (
     <>
-      {!hidePaths.includes(location.pathname) && <NavbarDefault />}
-      <Routes>
-        <Route path="/" element={<MarketPlace />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-      {!hidePaths.includes(location.pathname) && <Footer />}
+      <AuthProvider>
+        {!hidePaths.includes(location.pathname) && <NavbarDefault />}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <MarketPlace />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              <PrivateRoute>
+                <Cart />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUpPage />} />
+        </Routes>
+        {!hidePaths.includes(location.pathname) && <Footer />}
+      </AuthProvider>
     </>
   );
 }
