@@ -3,14 +3,22 @@ import {
   MobileNav,
   Typography,
   IconButton,
+  Button,
 } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import { navList } from "./navlist";
 
 export const NavbarDefault = () => {
   const [openNav, setOpenNav] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   useEffect(() => {
     window.addEventListener(
@@ -37,9 +45,9 @@ export const NavbarDefault = () => {
             color="blue-gray"
             className="flex items-center gap-x-2 p-1 font-medium"
           >
-            <Link to="/login" className="items-center hidden lg:block">
+            <Button size="lg md:hidden" color="gray" fullWidth onClick={handleLogout}>
               Logout
-            </Link>
+            </Button>
           </Typography>
         </div>
         <IconButton
@@ -90,9 +98,9 @@ export const NavbarDefault = () => {
               color="blue-gray"
               className="flex items-center gap-x-2 p-1 font-medium"
             >
-              <Link to="/login" className="flex items-center">
+              <Button size="lg" color="gray" fullWidth onClick={handleLogout}>
                 Logout
-              </Link>
+              </Button>
             </Typography>
           </div>
         </div>
