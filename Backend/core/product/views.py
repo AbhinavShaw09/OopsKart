@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
+from accounts.jwt import IsValidUser
 from rest_framework.viewsets import ViewSet
-from rest_framework.generics import ListAPIView
 
 from .models import Product
 from .serializers import ProductSerializer
@@ -11,7 +11,7 @@ from .serializers import ProductSerializer
 class ProductViewSet(ViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsValidUser]
     
     def perform_create(self,serializer):
         serializer.save()
@@ -25,7 +25,7 @@ class ProductViewSet(ViewSet):
     def update(self, request, *args, **kwargs) -> Response:
         partial = kwargs.pop("partial", False)
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer = self.serializer_class(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data) 
