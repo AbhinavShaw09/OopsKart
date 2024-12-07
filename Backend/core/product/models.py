@@ -1,15 +1,23 @@
+from datetime import datetime
 from django.db import models
 from django.core.exceptions import ValidationError
 from core.models import BaseModel
-from .constants import ProductCategoryChoices
+from .constants import (
+    ProductCategoryChoices,
+    GenderChoices,
+    CountryChoices,
+    ProductSizeChoices,
+)
+
+from rest_framework import serializers
 
 
 class ProductCategory(BaseModel):
     name = models.IntegerField(
-        choices=[(tag.value, tag.name) for tag in ProductCategoryChoices],
+        choices=ProductCategoryChoices.choices(),
         default=ProductCategoryChoices.SPORTS.value,
     )
-    description = models.CharField(max_length=300, blank=True, null=True)
+    description = models.TextField(max_length=300, blank=True, null=True)
     in_stock = models.BooleanField(default=True)
 
     def __str__(self) -> str:
@@ -18,6 +26,10 @@ class ProductCategory(BaseModel):
     @classmethod
     def get_active_product(cls, category_uuid):
         return Product.objects.filter(category_uuid=category_uuid, is_active=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name_plural = "ProductCategories"
 
 
 class Product(BaseModel):
@@ -48,5 +60,47 @@ class Product(BaseModel):
         return Product.objects.filter(is_active=True)
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["-created_at"]
         verbose_name_plural = "Products"
+
+
+class ProductDetails(BaseModel):
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    dimention = models.IntegerField(null=True, blank=True)
+    weight = models.IntegerField(null=True, blank=True)
+    data_first_available = models.DateField(default=datetime.now)
+    country_of_origin = models.IntegerField(
+        choices=CountryChoices.choices(),
+        default=CountryChoices.India.value,
+    )
+    packer = models.CharField(max_length=100)
+    manufacturer = models.CharField(max_length=100)
+    importer = models.CharField(max_length=100)
+    gender = models.IntegerField(
+        choices=GenderChoices.choices(),
+        default=GenderChoices.MALE.value,
+    )
+
+    def __str__(self):
+        return f"{self.product.name}-{self.country_of_origin}"
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name_plural = "ProductDetails"
+
+
+class ProductAttributes(BaseModel):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    color = models.CharField(null=True, blank=True, max_length=100)
+    size = models.IntegerField(
+        choices=ProductSizeChoices.choices(),
+        default=ProductSizeChoices.lg.value,
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name_plural = "ProductAttributes"
