@@ -20,6 +20,8 @@ db.sqlite3
 /media
 /staticfiles
 /static
+*/staticfiles
+*/static
 
 # Django migrations
 */migrations/*
@@ -78,3 +80,12 @@ node_modules/
 # Django Rest Framework generated files (if any)
 drf_openapi_schema.json
 drf_yasg_schema.json
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
