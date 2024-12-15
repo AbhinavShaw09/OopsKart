@@ -37,10 +37,11 @@ class ProductCategorySerializer(serializers.Serializer):
 class ProductSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=50)
+    original_price = serializers.DecimalField(max_digits=10, decimal_places=2)
     selling_price = serializers.DecimalField(max_digits=10, decimal_places=2)
     discounted_price = serializers.DecimalField(max_digits=10, decimal_places=2)
     description = serializers.CharField(max_length=200)
-    img = serializers.ImageField()
+    img = serializers.ImageField(required=False)
     category = serializers.PrimaryKeyRelatedField(
         queryset=ProductCategory.objects.all()
     )
@@ -54,6 +55,31 @@ class ProductSerializer(serializers.Serializer):
         if not value.replace(" ", "").isalpha():
             raise serializers.ValidationError(
                 "Product name should only contain letters and spaces."
+            )
+        return value
+
+    def validate_original_price(self, value):
+        discounted_price = self.initial_data.get("discounted_price")
+        selling_price = self.initial_data.get("selling_price")
+
+        discounted_price = self.is_valid_float_value(discounted_price)
+        selling_price = self.is_valid_float_value(selling_price)
+
+        if value <= 0:
+            raise serializers.ValidationError(
+                "Product selling price must be greater than zero."
+            )
+        elif value > 100000:
+            raise serializers.ValidationError(
+                "Product selling price seems unrealistic."
+            )
+        elif value <= discounted_price:
+            raise serializers.ValidationError(
+                "Product dicounted price should be higher than its original price"
+            )
+        elif value <= selling_price:
+            raise serializers.ValidationError(
+                "Product selling price should be higher than its original price"
             )
         return value
 
@@ -77,13 +103,14 @@ class ProductSerializer(serializers.Serializer):
             raise serializers.ValidationError("Product price seems unrealistic.")
         return value
 
-    def validate_img(self, value):
-        max_file_size = 5 * 1024 * 1024  # 5 MB
-        if value and value.size > max_file_size:
-            raise serializers.ValidationError(
-                "Product image file size should not exceed 5 MB."
-            )
-        return value
+    def validate_img(self, img):
+        if img:
+            max_file_size = 5 * 1024 * 1024  # 5 MB
+            if img and img.size > max_file_size:
+                raise serializers.ValidationError(
+                    "Product image file size should not exceed 5 MB."
+                )
+            return img
 
     def validate_description(self, value):
         if not value.strip():
@@ -121,6 +148,14 @@ class ProductSerializer(serializers.Serializer):
         instance.product_img = validated_data.get("product_img", instance.product_img)
         instance.save()
         return instance
+
+    def is_valid_float_value(self, value):
+        if value is not None:
+            try:
+                value = float(value)
+            except ValueError:
+                raise serializers.ValidationError("Discounted value must be a number.")
+        return value
 
 
 class ProductDetailSerializer(serializers.Serializer):

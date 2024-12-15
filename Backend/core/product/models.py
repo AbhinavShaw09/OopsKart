@@ -34,7 +34,7 @@ class ProductCategory(BaseModel):
 
 class Product(BaseModel):
     name = models.CharField(max_length=50)  # By default null=False, blank=False
-    original_price = models.DecimalField(max_digits=10, decimal_places=2)
+    original_price = models.DecimalField(max_digits=10, decimal_places=2, default=10)
     selling_price = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True
     )
