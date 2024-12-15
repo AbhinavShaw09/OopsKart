@@ -16,32 +16,34 @@ function App() {
   const shouldHide = hidePaths.includes(normalizePath(location.pathname));
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <AuthProvider>
         {!shouldHide && <NavbarDefault />}
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <MarketPlace />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/cart"
-            element={
-              <PrivateRoute>
-                <Cart />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUpPage />} />
-        </Routes>
+        <main className="flex-grow">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <MarketPlace />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/cart"
+              element={
+                <PrivateRoute>
+                  <Cart />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUpPage />} />
+          </Routes>
+        </main>
         {!shouldHide && <Footer />}
       </AuthProvider>
-    </>
+    </div>
   );
 }
 

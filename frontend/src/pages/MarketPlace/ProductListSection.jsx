@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import ProductListCard from "./ProductListCard";
 
 export const ProductListSection = ({ data }) => {
@@ -12,4 +13,16 @@ export const ProductListSection = ({ data }) => {
       </div>
     </section>
   );
+};
+
+
+ProductListSection.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      img: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      price: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+        .isRequired,
+    })
+  ).isRequired,
 };
